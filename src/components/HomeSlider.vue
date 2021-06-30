@@ -1,10 +1,7 @@
 <template>
+    <MenuModal v-if="show_Menu" :show-Menu="show_Menu" />
+    <img @click="showMenu()" id="bar" src="../assets/img/icon-hamburger.svg" alt=""/>
     <nav>
-        <input type="checkbox" id="toggle" />
-        <label for="toggle" class="togglebtn">
-          <img src="../assets/img/icon-close.svg" alt=""/>
-          <img src="../assets/img/icon-hamburger.svg" alt=""/>
-        </label>
         <label class="logo">room</label>
         <ul class="menu">
             <li class="nav-menu"><nuxt-link>home</nuxt-link></li>
@@ -81,6 +78,7 @@
 </template>
 
 <script>
+import MenuModal from './MenuModal.vue'
 import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 //import VueSlickCarousel from 'vue-slick-carousel'
@@ -92,23 +90,34 @@ export default {
         //VueSlickCarousel
         Splide,
         SplideSlide,
+        MenuModal
     },
     data() {
       return {
-        options: {
+          options: {
           rewind : true,
           width  : 1500,
           gap    : '1rem',
         },
-      };
+        show: true,
+        show_Menu: false
+      }
     },
+    methods: {
+        toggleShow() {
+            console.log('bar clicked')
+        }, 
+        showMenu() {
+            this.show_Menu = !this.show_Menu
+        }
+    }
 }
 </script>
 
 <style scoped>
 nav {
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     margin-top: 20px;
     margin-left: 5%;
     display: grid;
@@ -121,6 +130,24 @@ nav {
     padding-bottom: 3px;
     
 }
+#bar {
+    position: absolute;
+    z-index: 5;
+    left: 12%;
+    top: 7%;
+    display: none;
+}
+
+#toggle {
+  display: none;
+}
+/*#bar, #close-icon {
+    background: black;
+    position: relative;
+    z-index: 2;
+    margin-top: 12%;
+    left: 12%;
+}*/
 .mobile {
     display: none;
 }
@@ -149,6 +176,7 @@ nav ul li {
     width: 100%;
 }
 .slide-text {
+    position: static;
     width: auto;
     display: flex;
     flex-direction: column;
@@ -159,6 +187,7 @@ nav ul li {
 .discover {
     margin: auto auto;
     width: 50vh;
+    position: static;
 }
 #shop {
     display: flex;
@@ -198,11 +227,17 @@ p {
         width: 76%;
     }
     label.logo {
-        margin-left: 25vh;
+        top: 5%;
+        margin-left: 20vh;
+        position: absolute;
+    }
+    .menu {
+        display: none;
+    }
+    #bar {
+        display: block;
     }
 
-}
-#toggle {
-    visibility: hidden;
+
 }
 </style>
